@@ -12,8 +12,6 @@ before_install:
 - wget -qO- ${DX_CLI_URL_CUSTOM-$CLIURL} | tar xJ -C ~/sfdx --strip-components 1
 - export PATH=~/sfdx/bin:$PATH
 - sfdx --version
-- openssl enc -nosalt -aes-256-cbc -d -in assets/server.key.enc -out assets/server.key
-  -base64 -K $encrypted_4429669b7760_key -iv $encrypted_4429669b7760_iv
 before_script:
 - export DEPLOYDIR=src
 - export TESTLEVEL=RunLocalTests
