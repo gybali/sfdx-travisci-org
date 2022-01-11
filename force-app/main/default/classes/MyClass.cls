@@ -1,6 +1,6 @@
 public with sharing class MyClass {
   public MyClass() {
-    System.Debug('Test Balint');
+    System.Debug('Test Balint!');
   }
 
   public String getAppVersion() {
