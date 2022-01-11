@@ -17,7 +17,6 @@ before_script:
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
-<<<<<<< HEAD
 - sfdx update
 - echo 'y' | sfdx plugins:install sfdx-git-delta
 script:
@@ -26,7 +25,7 @@ script:
 #
 
   #Authorize target deployment org
-- sfdx auth:jwt:grant --instanceurl https://test.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
+- - sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
   #Create delta package.xml file
 - sfdx sgd:source:delta --to HEAD --from HEAD^ --output
   #Deploy to target deployment org and run unit tests
@@ -34,10 +33,3 @@ script:
 - sfdx force:source:deploy -w 10 -x ./package.xml -l $TESTLEVEL -u UAT
   #Example shows how to run a check-only deploy.
   #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
-=======
-script:
-- sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY
-  --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
-- sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel
-  $TESTLEVEL
->>>>>>> 5b6f30173f7638f3720f4172d14313ccc6cff429
