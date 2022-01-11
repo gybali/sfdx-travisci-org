@@ -1,7 +1,6 @@
 sudo: true
 before_install:
-- openssl aes-256-cbc -K $SSL_KEY -iv $IV_KEY
-  -in assets/server.key.enc -out assets/server.key -d -base64
+- openssl aes-256-cbc -K $SSL_KEY -iv $IV_KEY -in assets/server.key.enc -out assets/server.key -d -base64
 - export CLIURL=https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -25,7 +24,7 @@ script:
 #
 
   #Authorize target deployment org
-- - sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
+- sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
   #Create delta package.xml file
 - sfdx sgd:source:delta --to HEAD --from HEAD^ --output
   #Deploy to target deployment org and run unit tests
