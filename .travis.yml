@@ -1,34 +1,33 @@
 sudo: true
 before_install:
-- openssl aes-256-cbc -K $SSL_KEY -iv $IV_KEY -in assets/server.key.enc -out assets/server.key -d -base64
-- export CLIURL=https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-- export SFDX_AUTOUPDATE_DISABLE=false
-- export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
-- export SFDX_DOMAIN_RETRY=300
-- export SFDX_DISABLE_APP_HUB=true
-- export SFDX_LOG_LEVEL=DEBUG
-- mkdir ~/sfdx
-- wget -qO- ${DX_CLI_URL_CUSTOM-$CLIURL} | tar xJ -C ~/sfdx --strip-components 1
-- export PATH=~/sfdx/bin:$PATH
-- sfdx --version
+  - openssl aes-256-cbc -K $SSL_KEY -iv $IV_KEY -in assets/server.key.enc -out assets/server.key -d -base64
+  - export CLIURL=https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+  - export SFDX_AUTOUPDATE_DISABLE=false
+  - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
+  - export SFDX_DOMAIN_RETRY=300
+  - export SFDX_DISABLE_APP_HUB=true
+  - export SFDX_LOG_LEVEL=DEBUG
+  - mkdir ~/sfdx
+  - wget -qO- ${DX_CLI_URL_CUSTOM-$CLIURL} | tar xJ -C ~/sfdx --strip-components 1
+  - export PATH=~/sfdx/bin:$PATH
+  - sfdx --version
 before_script:
-- export DEPLOYDIR=src
-- export TESTLEVEL=RunLocalTests
-- sfdx --version
-- sfdx plugins --core
-- sfdx update
-- echo 'y' | sfdx plugins:install sfdx-git-delta
+  - export DEPLOYDIR=src
+  - export TESTLEVEL=RunLocalTests
+  - sfdx --version
+  - sfdx plugins --core
+  - sfdx update
+  - echo 'y' | sfdx plugins:install sfdx-git-delta
 script:
-#
-# The script step authenticates to the target deployment org and deploys the metadata
-#
+  #
+  # The script step authenticates to the target deployment org and deploys the metadata
+  #
 
   #Authorize target deployment org
-- sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
-  #Create delta package.xml file
-- sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
-  #Deploy to target deployment org and run unit tests
-  #sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
-- sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
-  #Example shows how to run a check-only deploy.
-  #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
+  - sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
+    #Create delta package.xml file
+  - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
+    #Deploy to target deployment org and run unit tests
+  - sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
+    #Example shows how to run a check-only deploy.
+    #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
