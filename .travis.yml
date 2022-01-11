@@ -29,6 +29,6 @@ script:
 - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
   #Deploy to target deployment org and run unit tests
   #sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
-- sfdx force:source:deploy -w 10 -x ./package.xml -l $TESTLEVEL -u UAT
+- sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
   #Example shows how to run a check-only deploy.
   #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
