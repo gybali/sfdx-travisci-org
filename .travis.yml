@@ -34,7 +34,8 @@ before_script:
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
-
+- sfdx update
+- echo 'y' | sfdx plugins:install sfdx-git-delta
 script:
 #
 # The script step authenticates to the target deployment org and deploys the metadata
@@ -42,7 +43,10 @@ script:
 
   #Authorize target deployment org
 - sfdx auth:jwt:grant --instanceurl https://test.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
+  #Create delta package.xml file
+- sfdx sgd:source:delta --to HEAD --from HEAD^ --output
   #Deploy to target deployment org and run unit tests
-- sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
+  #sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
+- sfdx force:source:deploy -w 10 -x ./package.xml -l $TESTLEVEL -u UAT
   #Example shows how to run a check-only deploy.
   #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
