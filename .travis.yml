@@ -26,7 +26,7 @@ script:
   - sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
     #Create delta package.xml file
   - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
-    #Deploy to target deployment org and run unit tests
+    #Deploy to target deployment org and run unit tests if any changes were made in Salesforce files
   - |
     if [[ $(wc -l < package/package.xml) > 3 ]]; then
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
