@@ -29,7 +29,7 @@ script:
   - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
     #Deploy to target deployment org and run unit tests
   - |
-    if [[$(wc -l < "package/package.xml") > 4]]; then
+    if [[$(wc -l < package/package.xml) > 4]]; then
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
     else
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT --ignorewarnings
