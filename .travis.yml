@@ -29,11 +29,11 @@ script:
   - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
     #Deploy to target deployment org and run unit tests
   - |
-    if File.read('package/package.xml').each_line.count > 4
+    if [File.read('package/package.xml').each_line.count > 4]; then
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
      else
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT --ignorewarnings
-    end
+    fi
   #Delete removed data from env
   - sfdx force:mdapi:deploy -d destructiveChanges -l $TESTLEVEL -u UAT --ignorewarnings
     #Example shows how to run a check-only deploy.
