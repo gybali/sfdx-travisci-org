@@ -40,3 +40,5 @@ $RECYCLE.BIN/
 .env
 
 assets/server.key
+destructiveChanges/
+package/
