@@ -31,7 +31,7 @@ script:
     if [[ $(wc -l < package/package.xml) > 3 ]]; then
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
     else
-     sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT --ignorewarnings
+     echo "No changes were made!"
     fi
   #Delete removed data from env
   - sfdx force:mdapi:deploy -d destructiveChanges -l $TESTLEVEL -u UAT --ignorewarnings
