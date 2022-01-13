@@ -24,9 +24,9 @@ script:
 
   #Authorize target deployment org
   - sfdx auth:jwt:grant --instanceurl https://login.salesforce.com  --clientid $CONSUMERKEY --jwtkeyfile assets/server.key --username $USERNAME --setalias UAT
-    #Create delta package.xml file
+  #Create delta package.xml file
   - sfdx sgd:source:delta --to HEAD --from HEAD^ --output "."
-    #Deploy to target deployment org and run unit tests if any changes were made in Salesforce files
+  #Deploy to target deployment org and run unit tests if any changes were made in Salesforce files
   - |
     if [[ $(wc -l < package/package.xml) > 3 ]]; then
      sfdx force:source:deploy -w 10 -x ./package/package.xml -l $TESTLEVEL -u UAT
@@ -35,5 +35,3 @@ script:
     fi
   #Delete removed data from env
   - sfdx force:mdapi:deploy -d destructiveChanges -l $TESTLEVEL -u UAT --ignorewarnings
-    #Example shows how to run a check-only deploy.
-    #- sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
